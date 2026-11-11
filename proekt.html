@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner App</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+    <header>
+        <h1> Travel Planner App</h1>
+        <p>Вашиот водич за истражување дестинации и планирање патувања</p>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="prikaziSekcija('pochetna', this)">Почетна</button>
+        <button class="nav-btn" onclick="prikaziSekcija('galerija', this)">Галерија</button>
+        <button class="nav-btn" onclick="prikaziSekcija('blog', this)">Блог / Водич</button>
+        <button class="nav-btn" onclick="prikaziSekcija('anketa', this)">Анкета</button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- ==================== 1. СЕКЦИЈА: ПОЧЕТНА ==================== -->
+        <section id="pochetna" class="page-section active">
+            <!-- Најава на корисник -->
+            <div class="sub-section">
+                <h2> Најава на корисник</h2>
+                <form class="form-group" onsubmit="zemiNajava(event)">
+                    <label>Корисничко име или Е-пошта:</label>
+                    <input type="text" id="usernameInput" required placeholder="Внесете име...">
+                    <label>Лозинка:</label>
+                    <input type="password" id="passwordInput" required placeholder="Внесете лозинка...">
+                    <button type="submit">Најави се</button>
+                </form>
+                <p id="najavaStatus" class="highlight-text"></p>
+            </div>
+
+            <!-- Популарни дестинации -->
+            <div class="sub-section">
+                <h2> Популарни дестинации</h2>
+                <div class="gradovi-grid">
+                    <div class="grad-card">
+                        <h3>Париз, Франција</h3>
+                        <p>Град на светлината и романтиката.</p>
+                    </div>
+                    <div class="grad-card">
+                        <h3>Рим, Италија</h3>
+                        <p>Вечниот град со богата историја.</p>
+                    </div>
+                    <div class="grad-card">
+                        <h3>Мадрид, Шпанија</h3>
+                        <p>Престолнината на сонцето и културата.</p>
+                    </div>
+                    <div class="grad-card">
+                        <h3>Виена, Австрија</h3>
+                        <p>Империјален град на музиката и валцерот.</p>
+                    </div>
+                    <div class="grad-card">
+                        <h3>Истанбул, Турција</h3>
+                        <p>Магичен спој меѓу Европа и Азија.</p>
+                    </div>
+                    <div class="grad-card">
+                        <h3>Амстердам, Холандија</h3>
+                        <p>Град на канали, велосипеди и уметност.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Пресметка на патни трошоци -->
+            <div class="sub-section">
+                <h2> Пресметка на патни трошоци</h2>
+                <div class="form-group">
+                    <label>Број на денови:</label>
+                    <input type="number" id="denovi" placeholder="на пр. 5">
+                    
+                    <label>Дневен буџет по лице (€):</label>
+                    <input type="number" id="budzet" placeholder="на пр. 50">
+                    
+                    <button onclick="presmetajTrosoci()">Пресметај</button>
+                    <p id="rezultatTrosoci" class="highlight-text"></p>
+                </div>
+            </div>
+
+            <!-- Додавање нова дестинација -->
+            <div class="sub-section">
+                <h2> Додај нова дестинација</h2>
+                <div class="form-group">
+                    <label>Име на град:</label>
+                    <input type="text" id="novoIme" placeholder="на пр. Барселона">
+                    <button onclick="dodajDestinacija()">Додај дестинација</button>
+                </div>
+            </div>
+
+            <!-- Листа на дестинации -->
+            <div class="sub-section">
+                <h2> Листа на дестинации</h2>
+                <ul id="listaDestinacii" class="destinagija-list">
+                    <li>Париз <button class="delete-btn" onclick="izbrisiElement(this)">Избриши</button></li>
+                    <li>Рим <button class="delete-btn" onclick="izbrisiElement(this)">Избриши</button></li>
+                    <li>Мадрид <button class="delete-btn" onclick="izbrisiElement(this)">Избриши</button></li>
+                    <li>Виена <button class="delete-btn" onclick="izbrisiElement(this)">Избриши</button></li>
+                    <li>Истанбул <button class="delete-btn" onclick="izbrisiElement(this)">Избриши</button></li>
+                    <li>Амстердам <button class="delete-btn" onclick="izbrisiElement(this)">Избриши</button></li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- ==================== 2. СЕКЦИЈА: ГАЛЕРИЈА ==================== -->
+        <section id="galerija" class="page-section">
+            <h2> Галерија со повеќе слики по градови</h2>
+            <p>Кликнете на град за да ги видите сите негови фотографии и да оставите лајк/коментар под секоја слика</p>
+
+            <div class="form-group">
+                <h2>Изберете дестинација:</h2>
+                <select id="izborGrad" onchange="prikazislikitenagrad()">
+                    <option value="Pariz">Париз (Франција)</option>
+                    <option value="Rim">Рим (Италија)</option>
+                    <option value="Madrid">Мадрид (Шпанија)</option>
+                    <option value="Viena">Виена (Австрија)</option>
+                    <option value="Istanbuls">Истанбул (Турција)</option>
+                    <option value="Amsterdam">Амстердам (Холандија)</option>
+                </select>
+            </div>
+
+            <div id="galerijaSekcija">
+                <h2 id="naslovGrad">Париз - Галерија слики</h2>
+                
+                
+                <div class="multi-image-grid" id="slikiContainer"></div>
+            </div>
+        </section>
+
+
+        <!-- ==================== 3. СЕКЦИЈА: БЛОГ ==================== -->
+        <section id="blog" class="page-section">
+            <h2> Блог / Водич низ градот</h2>
+            <p style="text-align: center; margin-bottom: 30px;">Инспиративни статии, совети и атракции за сите дестинации</p>
+
+            <!-- Париз -->
+            <div class="sub-section">
+                <h3 class="blog-city-title"> 10 работи што мора да ги видите во Париз</h3>
+                <div class="blog-grid">
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">01</span><div><strong>Ајфелова кула:</strong> Симболот на градот кој нуди неверојатен поглед.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">02</span><div><strong>Музејот Лувр:</strong> Дом на познатата Мона Лиза.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">03</span><div><strong>Катедралата Нотр Дам:</strong> Ремек-дело на готската архитектура.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">04</span><div><strong>Шанзелизе и Триумфалната порта:</strong> Најпознатата авенија за прошетки.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">05</span><div><strong>Монмартр и Сакре Кер:</strong> Уметничкиот дел со прекрасна панорама.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">06</span><div><strong>Крстарење по Сена:</strong> Уникатно доживување на градот од вода.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">07</span><div><strong>Латински квартал:</strong> Живописен дел полн со ресторанчиња и студенти.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">08</span><div><strong>Палата Версај:</strong> Кралската палата со фасцинантни градини во близина.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">09</span><div><strong>Музеј Орсе:</strong> Колекција на импресионистички дела од Моне и Ван Гог.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">10</span><div><strong>Луксембуршки градини:</strong> Совршено место за одмор и релаксација.</div></div>
+                </div>
+            </div>
+
+            <!-- Рим -->
+            <div class="sub-section" style="margin-top: 40px;">
+                <h3 class="blog-city-title"> 10 активности што треба секој турист да ги направи во Рим</h3>
+                <div class="blog-grid">
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">01</span><div><strong>Фрлете паричка во Фонтаната Ди Треви:</strong> Гарантира враќање во Рим.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">02</span><div><strong>Истражете го Колосеумот:</strong> Најголемиот антички амфитеатар.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">03</span><div><strong>Ватикански музеи и Сикстинска капела:</strong> Папско уметничко наследство.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">04</span><div><strong>Пантеон:</strong> Архитектонско чудо со огромна бетонска купола.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">05</span><div><strong>Шпански скали:</strong> Уживајте во италијански сладолед и амбиент.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">06</span><div><strong>Плоштад Навона:</strong> Барокни фонтани и улични уметници.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">07</span><div><strong>Трастевере:</strong> Тесни калдрмени улички и вкусна карбонара.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">08</span><div><strong>Капитолски музеи:</strong> Погледнете ја бронзената римска волчица.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">09</span><div><strong>Уста на вистината:</strong> Легендата вели дека ги гризе лажговците.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">10</span><div><strong>Брдо Пинчо:</strong> Совршено зајдисонце со панорама на градот.</div></div>
+                </div>
+            </div>
+
+            <!-- Мадрид -->
+            <div class="sub-section" style="margin-top: 40px;">
+                <h3 class="blog-city-title"> 10 активности што треба секој турист да ги направи во Мадрид</h3>
+                <div class="blog-grid">
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">01</span><div><strong>Музеј Прадо:</strong> Врвни дела од Веласкез и Гоја.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">02</span><div><strong>Парк Ретиро:</strong> Зелен оаза со прекрасна Кристална палата.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">03</span><div><strong>Кралска палата:</strong> Резиденција на шпанското кралско семејство.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">04</span><div><strong>Плаза Мајор:</strong> Историското срце на Мадрид.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">05</span><div><strong>Пазар Сан Мигел:</strong> Дегустација на шпански тапаси и вина.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">06</span><div><strong>Пуерта дел Сол:</strong> Познатата точка „Нула километар“.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">07</span><div><strong>Музеј Рена Софија:</strong> Домот на чувената „Герника“ од Пикасо.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">08</span><div><strong>Фламенко шоу:</strong> Почувствувајте ја шпанската страст и танц.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">09</span><div><strong>Гран Вија:</strong> Најпознатиот булевар за шопинг и прошетки.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">10</span><div><strong>Стадион Сантијаго Бернабеу:</strong> Посетете го храмот на Реал Мадрид.</div></div>
+                </div>
+            </div>
+
+            <!-- Виена -->
+            <div class="sub-section" style="margin-top: 40px;">
+                <h3 class="blog-city-title"> 10 работи што мора да ги видите во Виена</h3>
+                <div class="blog-grid">
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">01</span><div><strong>Дворец Шенбрун:</strong> Поранешна летна резиденција на хабсбуршките владетели.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">02</span><div><strong>Палата Хофбург:</strong> Зимскиот дворец и дом на австриските цареви.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">03</span><div><strong>Катедрала Св. Стефан:</strong> Готско ремек-дело во срцето на Виена.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">04</span><div><strong>Виенска опера:</strong> Една од најпрестижните оперски куќи во светот.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">05</span><div><strong>Дворец Белведере:</strong> Музеј што ја чува познатата слика „Бакнежот“ од Густав Климт.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">06</span><div><strong>Забавлен парк Пратер:</strong> Возете се на историското големо тркало.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">07</span><div><strong>Музејски кварт (MQ):</strong> Еден од најголемите културни центри на планетата.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">08</span><div><strong>Виенско кафе и торти:</strong> Пробајте ја оригиналната Захер торта.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">09</span><div><strong>Улица Рингштрасе:</strong> Импресивен булевар опколен со палати и споменици.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">10</span><div><strong>Градски парк (Stadtpark):</strong> Погледнете го златниот споменик на Јохан Штраус.</div></div>
+                </div>
+            </div>
+
+            <!-- Истанбул -->
+            <div class="sub-section" style="margin-top: 40px;">
+                <h3 class="blog-city-title"> 10 работи што мора да ги видите во Истанбул</h3>
+                <div class="blog-grid">
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">01</span><div><strong>Аја Софија:</strong> Архитектонско чудо со илјадагодишна историја.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">02</span><div><strong>Сина џамија (Султанахмет):</strong> Позната по своите фасцинантни сини плочки.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">03</span><div><strong>Плата Топкапи:</strong> Раскошен дом на османлиските султани со поглед на Босфор.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">04</span><div><strong>Капали чаршија (Grand Bazaar):</strong> Еден од најголемите покриени пазари на светот.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">05</span><div><strong>Цистерна на базиликата:</strong> Подземно античко водно складиште со столбови со Медуза.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">06</span><div><strong>Крстарење по Босфор:</strong> Уживајте во глетката на два континента од вода.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">07</span><div><strong>Кула Галата:</strong> Панорамски поглед од птичја перспектива на целиот град.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">08</span><div><strong>Пазар за зачини (Egyptian Bazaar):</strong> Ароматични зачини, чаеви и турски слатки.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">09</span><div><strong>Плоштад Таксим и улица Истиклал:</strong> Живописен центар полн со продавници и трамваи.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">10</span><div><strong>Долмабахче палата:</strong> Последната административна резиденција на султаните.</div></div>
+                </div>
+            </div>
+
+            <!-- Амстердам -->
+            <div class="sub-section" style="margin-top: 40px;">
+                <h3 class="blog-city-title"> 10 работи што мора да ги видите во Амстердам</h3>
+                <div class="blog-grid">
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">01</span><div><strong>Каналите на Амстердам:</strong> Симболот на градот заштитен од УНЕСКО.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">02</span><div><strong>Музеј на Ван Гог:</strong> Најголема колекција дела од славниот сликар.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">03</span><div><strong>Куќата на Ана Франк:</strong> Емотивно и историско место во срцето на градот.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">04</span><div><strong>Ријксмузеум (Rijksmuseum):</strong> Национален музеј на холандската уметност и историја.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">05</span><div><strong>Вонделпарк:</strong> Најголемиот и најпознатиот градски парк за релаксација.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">06</span><div><strong>Плоштад Дам:</strong> Историско срце со Кралската палата и споменици.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">07</span><div><strong>Цветен пазар (Bloemenmarkt):</strong> Единствениот пловечки пазар за цвеќе во светот.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">08</span><div><strong>Историски ветрени мелници:</strong> Откријте ја традиционалната холандска архитектура.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">09</span><div><strong>Возење со велосипед:</strong> Истражете го градот како вистински локалец.</div></div>
+                    <div class="blog-card" onclick="toggleCard(this)"><span class="card-number">10</span><div><strong>Кварт Јордан (Jordaan):</strong> Тесни улички, бутици и убави кафулиња.</div></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== 4. СЕКЦИЈА: АНКЕТА ==================== -->
+        <section id="anketa" class="page-section">
+            <h2> Анкета за посетителите</h2>
+            <p>Споделете ги вашите впечатоци и помогнете ни да се подобриме</p>
+
+            <div class="sub-section">
+                <h2>Прашалник за импресии</h2>
+                <form onsubmit="prikaziPoruka(event)">
+                    <div class="form-group">
+                        <label>Ваше име:</label>
+                        <input type="text" required placeholder="Внесете име...">
+
+                        <label>Како го оценувате сајтот?</label>
+                        <select>
+                            <option>Одлично ⭐⭐⭐⭐⭐</option>
+                            <option>Многу добро ⭐⭐⭐⭐</option>
+                            <option>Добро ⭐⭐⭐</option>
+                            <option>Просечно ⭐⭐</option>
+                        </select>
+
+                        <label>Ваши впечатоци и предлози:</label>
+                        <textarea rows="4" placeholder="Напишете го вашето мислење овде..."></textarea>
+
+                        <button type="submit">Испрати анкета</button>
+                    </div>
+                </form>
+                <p id="porukaUspeshno" style="color: #38bdf8; font-weight: bold; margin-top: 15px;"></p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Travel Planner App | Проектна задача</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
